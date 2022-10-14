@@ -3,7 +3,6 @@ var app = (function() {
     // Your code goes here!
      
     // Function to change button state and icon state
-    // TODO, icon state blue and yellow, primary and warning
     function btChange (id, icon){
     let btnChange = document.getElementById(id);
     let iconChange = document.getElementById(icon);
@@ -11,29 +10,32 @@ var app = (function() {
     let classesIconChange = iconChange.classList;
     let condChange = false;
     btnChange.onclick = function(){
-        //
         if (condChange && icon=='ambientMusic'){
             classesBtnChange.remove('fa-toggle-off');
             classesBtnChange.add('fa-toggle-on');
             classesIconChange.add('text-primary');
             
-        } //
+        }
         else if (condChange && icon!='ambientMusic'){
             classesBtnChange.remove('fa-toggle-off');
             classesBtnChange.add('fa-toggle-on');
+            classesIconChange.remove('far');
+            classesIconChange.add('fas');
             classesIconChange.add('text-warning');
             
-        } //
+        }
         else if(!condChange && icon=='ambientMusic'){
             classesBtnChange.remove('fa-toggle-on');
             classesBtnChange.add('fa-toggle-off');
             classesIconChange.remove('text-primary');
             
-        } //
+        }
         else{
             classesBtnChange.remove('fa-toggle-on');
             classesBtnChange.add('fa-toggle-off');
             classesIconChange.remove('text-warning');
+            classesIconChange.remove('fas');
+            classesIconChange.add('far');
             
         }
         condChange = !condChange;  
@@ -66,25 +68,36 @@ var app = (function() {
     let temperatureLvRoomChange = document.getElementById('temperatureLvRoomChange');
 
     setInterval(function() {temperatureKitchenChange.innerHTML = 
-        Math.floor(Math.random() * (max - min + 1)) + min},
+        Number.parseFloat(Math.random() * (max - min + 1) + min).toFixed(1)},
     5000);
     
     setInterval(function() {temperatureLvRoomChange.innerHTML = 
-        Math.floor(Math.random() * (max - min + 1)) + min},
+        Number.parseFloat(Math.random() * (max - min + 1) + min).toFixed(1)},
     5000);
+                
+    //     Math.floor(Math.random() * (max - min + 1)) + min},
+    // 5000);
     
     // Implement a functionality to update the date when the page is loaded, and to update the
     //hours, minutes and seconds automatically, every second
-    let today = new Date();
-    let timer = document.getElementById('timeChange');
     
-    setInterval(function() {timer.innerHTML =
-        `${today.getHours()}-${today.getMinutes()}-${today.getSeconds()}`},
+    let timer = document.getElementById('timeChange');
+    setInterval(function() {
+        const todayLocalVar = new Date();
+        const hours = String(todayLocalVar.getHours());
+        const minutes = ('0' + String(todayLocalVar.getMinutes())).slice(-2);
+        const seconds = ('0' + String(todayLocalVar.getSeconds())).slice(-2);
+        timer.innerHTML = `${hours}:${minutes}:${seconds}`},
     1000);
+    
+    //`${today.getFullYear()}-${today.getMonth()+1}-${today.getDay()}`
+    //TODO format year-month-day
+    let today = new Date();
+    let year = String(today.getFullYear());
+    let month = ('0'+ String(today.getMonth()+1)).slice(-2);
+    let day = String(today.getDay());
+    console.log(today.getDay());
+    document.getElementById('dateChange').innerHTML= 
+    `${year}-${month}-${today.getDay()}`;
 
-    let dateTime = `${today.getFullYear()}-${today.getMonth()+1}-${today.getDay()}`;
-    //console.log(typeof(dateTime));
-    document.getElementById('dateChange').innerHTML= dateTime;
-
- 
     })();
