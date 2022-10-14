@@ -84,7 +84,8 @@ var app = (function() {
     let timer = document.getElementById('timeChange');
     setInterval(function() {
         const todayLocalVar = new Date();
-        const hours = String(todayLocalVar.getHours());
+        //const hours = String(todayLocalVar.getHours());
+        const hours = ('0' + String(todayLocalVar.getHours())).slice(-2);
         const minutes = ('0' + String(todayLocalVar.getMinutes())).slice(-2);
         const seconds = ('0' + String(todayLocalVar.getSeconds())).slice(-2);
         timer.innerHTML = `${hours}:${minutes}:${seconds}`},
@@ -95,9 +96,11 @@ var app = (function() {
     let today = new Date();
     let year = String(today.getFullYear());
     let month = ('0'+ String(today.getMonth()+1)).slice(-2);
-    let day = String(today.getDay());
+    let day = ('0'+ String(today.getDay())).slice(-2);
+    
+    //let day = String(today.getDay());
     console.log(today.getDay());
     document.getElementById('dateChange').innerHTML= 
-    `${year}-${month}-${today.getDay()}`;
+    `${year}-${month}-${day}`;
 
     })();
