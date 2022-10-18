@@ -1,3 +1,38 @@
+$().ready(function () {
+    // Panel for  Temperature (current), Max. Temperature, Min. Temperature, Humidity, Sunrise time, Sunset time
+    $oldTimeFetch = new Date().getTime();
+    $.getJSON('https://api.openweathermap.org/data/2.5/weather?units=metric&q=leiria&appid=b919808d903be475ea8d3463b4b9bf3e',
+        function(response) {
+            $('#tmpWeather').text(response.main.temp + ' ºC');
+            $('#tmpMaxWeather').text(response.main.temp_min + ' ºC');
+            $('#tmpMinWeather').text(response.main.temp_max + ' ºC');
+            $('#humidity').text(response.main.humidity + ' %');
+            // UTC unix
+            $sunriseUTC = new Date(response.sys.sunrise);
+            $localDateSunrise = `${$sunriseUTC.getHours()}:${$sunriseUTC.getMinutes()}:${$sunriseUTC.getSeconds()} AM`;
+            $('#sunriseTime').text($localDateSunrise);
+            $sunsetUTC = new Date(response.sys.sunset);
+            $localDateSunset = `${$sunsetUTC.getHours()}:${$sunsetUTC.getMinutes()}:${$sunsetUTC.getSeconds()} PM`;
+            $('#sunsetTime').text($localDateSunset);
+            // get time when info was fetched, then change it dynamically seconds, then minutes, then hours 
+            // delta = newTimeFetch - oldTimeFetch
+            $newTimeFetch = new Date().getTime();
+            $delta = $newTimeFetch - $oldTimeFetch;
+            if ($delta < 60){
+                $lastTime = String($delta) + ' seconds ago';
+            } else if($delta > 60 && $delta < 3600 ){
+                $minutes = Math.floor($delta / 60);
+                $lastTime = String($minutes) + ' minutes ago';
+            } else{
+                $hours = Math.floor($delta / 3600);
+                $lastTime = String($hours) + ' hours ago';
+            }
+            $('#fetchTime').text($lastTime);
+            $oldTimeFetch = $newTimeFetch;     
+    });
+
+});
+
 var app = (function() {
     'use strict';
     // Your code goes here!
@@ -84,7 +119,6 @@ var app = (function() {
     let timer = document.getElementById('timeChange');
     setInterval(function() {
         const todayLocalVar = new Date();
-        //const hours = String(todayLocalVar.getHours());
         const hours = ('0' + String(todayLocalVar.getHours())).slice(-2);
         const minutes = ('0' + String(todayLocalVar.getMinutes())).slice(-2);
         const seconds = ('0' + String(todayLocalVar.getSeconds())).slice(-2);
