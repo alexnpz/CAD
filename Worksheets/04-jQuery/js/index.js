@@ -1,7 +1,9 @@
 $().ready(function () {
     // Panel for  Temperature (current), Max. Temperature, Min. Temperature, Humidity, Sunrise time, Sunset time
     $oldTimeFetch = new Date().getTime();
-    $.getJSON('https://api.openweathermap.org/data/2.5/weather?units=metric&q=leiria&appid=b919808d903be475ea8d3463b4b9bf3e',
+    // Create account in openweathermap.org and get API Key, then place it in the variable $apiKey
+    $apiKey = '';
+    $.getJSON('https://api.openweathermap.org/data/2.5/weather?units=metric&q=leiria&appid=$apiKey',
         function(response) {
             $('#tmpWeather').text(response.main.temp + ' ºC');
             $('#tmpMaxWeather').text(response.main.temp_min + ' ºC');
